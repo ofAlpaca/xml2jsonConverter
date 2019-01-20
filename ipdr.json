@@ -1,0 +1,48 @@
+{
+	"IPDRDoc":	{
+		"xmlns":	"http://www.ipdr.org/namespaces/IPDR",
+		"xmlns:nortel":	"http://www.nortelnetworks.com/ipdr/namespace",
+		"xmlns:VoIP":	"http://www.ipdr.org/namespaces/VoIP",
+		"xmlns:xsi":	"http://www.w3.org/2001/XMLSchema-instance",
+		"xsi:schemaLocation":	"http://www.ipdr.org/namespaces/IPDR http://www.ipdr.org/public/IPDRDoc3.5.xsd http://www.nortelnetworks.com/ipdr/namespace NortelMCP4.0.xsd",
+		"docId":	"1670626b726626d44200000015",
+		"IPDR":	[{
+				"xsi:type":	"nortel:Nortel-VoIP",
+				"VoIP:subscriberID":	"davidwei@twm.net",
+				"VoIP:hostName":	"SESM1_0",
+				"VoIP:startTime":	"1970-01-01T00:00:00.000Z",
+				"VoIP:endTime":	"1970-01-01T00:00:00.000Z",
+				"VoIP:timeZoneOffset":	"+08:00",
+				"VoIP:callCompletionCode":	"CIP",
+				"VoIP:originalDestinationId":	"sip:0266178097@twm.net",
+				"VoIP:uniqueCallId":	"",
+				"VoIP:callProgressState":	"6",
+				"nortel:recordID":	"340d8ca0765a597185745e141a23d72213880e8ec1",
+				"nortel:protocol":	"sip",
+				"nortel:corrID":	"",
+				"nortel:recordType":	"InstantMessage",
+				"nortel:recTime":	"2018-11-13T01:56:31.939Z",
+				"nortel:msgSize":	"396",
+				"nortel:oUA":	"Nteract iPhone 3.6.4001 stamp 35945.36185",
+				"nortel:ansInd":	"true",
+				"nortel:subscriberFQDN":	"sd.twm.net"
+			}, {
+				"xsi:type":	"nortel:Nortel-Routing",
+				"nortel:recordID":	"340d8ca0765a597185745e141a23d72213880e8ec1",
+				"nortel:routingDest":	"sip:0266178097@sd.twm.net;sid=16598",
+				"nortel:routingID":	"0"
+			}, {
+				"xsi:type":	"nortel:Nortel-RouteBlock",
+				"nortel:recordID":	"340d8ca0765a597185745e141a23d72213880e8ec1",
+				"nortel:routingID":	"0",
+				"nortel:type":	"SIM",
+				"nortel:routeBlockID":	"0"
+			}, {
+				"xsi:type":	"nortel:Nortel-Routes",
+				"nortel:recordID":	"340d8ca0765a597185745e141a23d72213880e8ec1",
+				"nortel:routingID":	"0",
+				"nortel:routeBlockID":	"0",
+				"nortel:routesID":	"0"
+			}]
+	}
+}
