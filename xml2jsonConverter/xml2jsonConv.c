@@ -100,9 +100,8 @@ cJSON * make2cJson(ezxml_t xml_root) {
 
 ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
     
-    cJSON *element = json_root;
-    ezxml_t child_tag = NULL;
-    
+    cJSON *element = json_root, *js_item = NULL;
+    ezxml_t child_tag = NULL, item_tag = NULL;
     if(!xml_root)
         xml_root = ezxml_new(element->string);
 
@@ -111,30 +110,23 @@ ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
     while(element){
         if(element->type == cJSON_Object){
             printf("object %s\n", element->string);
-            child_tag = make2ezxml(element->child, xml_root);
-            printf("insert \n");
-            ezxml_insert(child_tag, xml_root, 0);
+            make2ezxml(element->child, xml_root);
         }else if(element->type == cJSON_String){
             printf("string %s\n", element->string);
             child_tag = ezxml_add_child(xml_root, element->string, 0);
             ezxml_set_txt(child_tag, element->valuestring);
-        }
+        }else if(element->type == cJSON_Array){
+            printf("array %s\n", element->string);
+            int arr_size = cJSON_GetArraySize(element);
+            for(int i = 0 ; i < arr_size ; ++i){
+               js_item = cJSON_GetArrayItem(element, i);
+               printf("%s\n", cJSON_Print(js_item));
 
-        /*
-        if(element->child){
-            child = element->child;
-            while(child){
-                // it's an attribute.
-                if(child->type == cJSON_Array){
-                    
-                }else{
-                    ezxml_add_child(element, child->string, 0);
-                    ezxml_set_txt()
-                }
-                
-                child = child->next;
+               item_tag = ezxml_new(element->string);
+               make2ezxml(js_item->child, item_tag);
+               ezxml_insert(item_tag, xml_root, 0);
             }
-        }*/
+        }
 
         element = element->next;
     }
