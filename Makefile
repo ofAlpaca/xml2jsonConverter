@@ -4,7 +4,8 @@ LFLAGS =  -L $(LIB_DIR)
 MAKE = make
 FLAGS = ${IFLAGS} ${LFLAGS} -std=c99 -lm -w
 
-all: EXAMPLES_EXE
+all: EZXML_LIB CJSON_LIB CONVERTER_LIB
+test: test_xml2json test_json2xml
 
 EZXML_LIB: $(LIB_DIR)/libezxml.a
 CJSON_LIB: $(LIB_DIR)/libcjson.a
@@ -19,14 +20,14 @@ CJSON_LIB: $(LIB_DIR)/libcjson.a
 	cd cJSON-master && $(MAKE)
 	mv ./cJSON-master/libcjson.a $(LIB_DIR)
 
-CONVERTER_LIB:
-	gcc -c xml2jsonConverter/ezxml2cJson.c $(FLAGS)
-	ar crsv libconverter.a ezxml2cJson.o
+CONVERTER_LIB: xml2jsonConverter/xml2jsonConv.c
+	gcc -c xml2jsonConverter/xml2jsonConv.c $(FLAGS)
+	ar crsv libconverter.a xml2jsonConv.o
 	mv libconverter.a $(LIB_DIR)
-	rm ezxml2cJson.o
+	rm xml2jsonConv.o
 
-EXAMPLES_EXE: EZXML_LIB CJSON_LIB CONVERTER_LIB
-	gcc ipdr2cJson.c $(FLAGS) -lconverter -lcjson -lezxml -o ipdr2cJson
+test_%: test_%.c xml2jsonConverter/xml2jsonConv.c
+	gcc $< $(FLAGS) -lconverter -lcjson -lezxml -o $@
 
 clean:
 	rm -f $(EXE_FILES) $(LIB_DIR)/*.a  

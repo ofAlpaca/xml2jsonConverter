@@ -1,20 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ezxml2cJson.h"
+#include "xml2jsonConv.h"
+
+// write the file.
+void write2file(const char *buffer, const char *filename) {
+    FILE * fp = fopen(filename, "w");
+    fwrite(buffer, strlen(buffer), 1, fp);
+    fclose(fp);
+}
 
 // Input a string and parse it to ezxml format. 
-void xml2cJson(const char* s){
+char *xml2cJson(const char* s){
     ezxml_t xml_root = ezxml_parse_str(s, strlen(s));
 
     cJSON *json_root = make2cJson(xml_root);
-    char * str_cJson = cJSON_Print(json_root);
+    char *str_cJson = cJSON_Print(json_root);
     
-    FILE * fp = fopen("ipdr.json", "w");
-    fwrite(str_cJson, strlen(str_cJson), 1, fp);
-    fclose(fp);
-
     ezxml_free(xml_root);
     cJSON_Delete(json_root);
+    return str_cJson;
+}
+
+// Input a string and parse it to cJSON format.
+char *cJson2xml(const char* s){
+    cJSON *json_root = cJSON_Parse(s);
+
+    json_root = json_root->child;
+    ezxml_t xml_root = make2ezxml(json_root, NULL);
+    char *str_ezxml = ezxml_toxml(xml_root);
+
+    cJSON_Delete(json_root);
+    ezxml_free(xml_root);
+    return str_ezxml;
 }
 
 // Recursivly call the function to parse it to cJson format,
@@ -78,6 +95,49 @@ cJSON * make2cJson(ezxml_t xml_root) {
         cJSON_AddStringToObject(json_root, xml_root->name, xml_root->txt);
     }
 
-
     return json_root;
+}
+
+ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
+    
+    cJSON *element = json_root;
+    ezxml_t child_tag = NULL;
+    
+    if(!xml_root)
+        xml_root = ezxml_new(element->string);
+
+    printf("root : %s\n",element->string);
+
+    while(element){
+        if(element->type == cJSON_Object){
+            printf("object %s\n", element->string);
+            child_tag = make2ezxml(element->child, xml_root);
+            printf("insert \n");
+            ezxml_insert(child_tag, xml_root, 0);
+        }else if(element->type == cJSON_String){
+            printf("string %s\n", element->string);
+            child_tag = ezxml_add_child(xml_root, element->string, 0);
+            ezxml_set_txt(child_tag, element->valuestring);
+        }
+
+        /*
+        if(element->child){
+            child = element->child;
+            while(child){
+                // it's an attribute.
+                if(child->type == cJSON_Array){
+                    
+                }else{
+                    ezxml_add_child(element, child->string, 0);
+                    ezxml_set_txt()
+                }
+                
+                child = child->next;
+            }
+        }*/
+
+        element = element->next;
+    }
+
+    return xml_root;
 }
