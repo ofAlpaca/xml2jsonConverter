@@ -17,8 +17,9 @@ int main(int argc, char* argv[]) {
     
     char *json_content = xml2cJson(fcontent);
     write2file(json_content, "xml2json.json");
-    free(json_content);
     
+    free(json_content);
+    free(fcontent);
     fclose(fp);
     return 0;
 }
