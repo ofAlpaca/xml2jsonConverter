@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     fread(fcontent, size, 1, fp);
     
     char *xml_content = cJson2xml(fcontent);
-    write2file(xml_content, "json2xml.xml");
+    write2file(xml_content, "json2xml_output.xml");
 
     free(xml_content);
     free(fcontent);

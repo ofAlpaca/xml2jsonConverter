@@ -1,0 +1,6 @@
+# .gitignore
+
+*.o
+*.a
+test_json2xml
+test_xml2json

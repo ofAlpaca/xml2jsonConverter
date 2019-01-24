@@ -1,0 +1,27 @@
+{
+	"IPDRDoc":	{
+		"testID" : "testIDstr",
+		"IPDR":	[{
+				"xsi:type":	"nortel:Nortel-VoIP",
+				"VoIP:subscriberID":	"davidwei@twm.net",
+				"VoIP:hostName":	"SESM1_0",
+				"nortel:msgSize":	"399",
+				"ipdrArr" : [true, true, false]
+			}, {
+				"xsi:type":	"nortel:Nortel-Routing",
+				"nortel:recordID":	"340d8ca0765a597185745e141a23d72213880e8ec1",
+				"nortel:routingDest":	"sip:0266178097@sd.twm.net;sid=16598",
+				"nortel:routingID":	"0"
+			}, {
+				"xsi:type":	"nortel:Nortel-Routes",
+				"nortel:recordID":	"340d8ca0765a597185745e141a23d72213880e8ec1",
+				"nortel:routingID":	"0",
+				"nortel:routeBlockID":	"0",
+				"nortel:routesID":	"0"
+			}]
+	},
+
+	"ArrNum" : [1,2,3,4,5,6],
+	"BoolArr" : [true, true, false],
+	"String" : "STRING"
+}

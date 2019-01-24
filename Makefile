@@ -2,10 +2,11 @@ LIB_DIR = ./libs
 IFLAGS = -I ./ezxml -I ./cJSON-master -I ./xml2jsonConverter -g
 LFLAGS =  -L $(LIB_DIR)
 MAKE = make
-FLAGS = ${IFLAGS} ${LFLAGS} -std=c99 -lm -w
+TEST_EXE = test_xml2json test_json2xml
+FLAGS = ${IFLAGS} ${LFLAGS} -lm -w
 
 all: EZXML_LIB CJSON_LIB CONVERTER_LIB
-test: test_xml2json test_json2xml
+test: $(TEST_EXE)
 
 EZXML_LIB: $(LIB_DIR)/libezxml.a
 CJSON_LIB: $(LIB_DIR)/libcjson.a
@@ -30,6 +31,6 @@ test_%: test_%.c xml2jsonConverter/xml2jsonConv.c
 	gcc $< $(FLAGS) -lconverter -lcjson -lezxml -o $@
 
 clean:
-	rm -f $(EXE_FILES) $(LIB_DIR)/*.a  
+	rm -f $(TEST_EXE) $(LIB_DIR)/*.a  
 	cd ezxml && $(MAKE) clean
 	cd cJSON-master && $(MAKE) clean
