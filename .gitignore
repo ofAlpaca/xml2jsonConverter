@@ -1,5 +1,4 @@
-# .gitignore
-
+# xml2jsonConverter .gitignore
 *.o
 *.a
 test_json2xml
