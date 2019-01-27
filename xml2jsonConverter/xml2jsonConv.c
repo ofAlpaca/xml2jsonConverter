@@ -124,21 +124,12 @@ ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
     ezxml_t child_tag = NULL, item_tag = NULL;
     // if xml_root is null, then add pseudo tag.
     if(!xml_root)
-        xml_root = ezxml_new("PseudoTag");
+        xml_root = ezxml_new("pseudoTag");
 
     while(element){
-
-        puts("-------------------------------");
-        if (element->string)
-            printf("js name is '%s'\n", element->string);
-        else
-            puts("this js has no name");
-        printf("js type is '%d'\n", element->type);
-
         if(element->type == cJSON_String || element->type == cJSON_Raw){
             // the element is string or raw text, create a child and add a text.
             if (element->string) {
-                printf("js value is '%s'\n", element->valuestring);
                 child_tag = ezxml_add_child(xml_root, element->string, 0);
                 ezxml_set_txt(child_tag, element->valuestring);
             }else{
@@ -149,7 +140,6 @@ ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
             // the element is digit, convert the digit to string and create a child then add the string.
             char *digit_str = malloc(64);
             sprintf(digit_str, "%.2f", element->valuedouble);
-             printf("js value is '%s'\n", digit_str);
             if (element->string) {
                 child_tag = ezxml_add_child(xml_root, element->string, 0);
                 ezxml_set_txt(child_tag, digit_str);
@@ -159,7 +149,6 @@ ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
             }
         }else if(element->type == cJSON_True || element->type == cJSON_False){
             // the element is boolean, create a child and add true or false.
-            printf("js value is '%s'\n", cJSON_Print(element));
             if (element->string) {
                 child_tag = ezxml_add_child(xml_root, element->string, 0);
                 ezxml_set_txt(child_tag, cJSON_Print(element));
@@ -169,7 +158,6 @@ ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
             }
         }else if(element->type == cJSON_Object){
             // the element is an object, recursivly call make2ezxml and insert back to root.
-            printf("js value is 'object'\n");
             if (element->string){
                 item_tag = ezxml_new(element->string);
                 make2ezxml(element->child, item_tag);
@@ -181,23 +169,28 @@ ezxml_t make2ezxml(cJSON *json_root, ezxml_t xml_root) {
         }else if(element->type == cJSON_Array){
             // the element is an array, loop the items inside the array.
             int arr_size = cJSON_GetArraySize(element);
-            puts("js value is 'array'");
+            int quit_flag = 0;
             for(int i = 0 ; i < arr_size ; ++i){
                 js_item = cJSON_GetArrayItem(element, i);
 
-                item_tag = ezxml_new(element->string);
-
-                make2ezxml(js_item, item_tag);
-                    
-                ezxml_insert(item_tag, xml_root, 0);
-                puts("js item of array done");
+                if (element->string){
+                    item_tag = ezxml_new(element->string);
+                    make2ezxml(js_item, item_tag);
+                    ezxml_insert(item_tag, xml_root, 0);
+                } else {
+                    item_tag = ezxml_new("pseudoIndex");
+                    make2ezxml(js_item, item_tag);
+                    ezxml_insert(item_tag, xml_root, 0);
+                    quit_flag = 1;
+                }
             }
+
+            if (quit_flag)
+                break;
         }
 
         // next element in json.
         element = element->next;
-        puts("next->>>>");
     }
-    puts("================================");
     return xml_root;
 }
