@@ -1,7 +1,7 @@
 # A xml and json foramt converter
 
 ## What can it do ?
-This library depends on cJSON and ezxml, both of library are written in pure C. So do this converter.
+This library depends on cJSON and ezxml, both of library are written in C. So do this converter.
 
 Basically, this converter can transform most of the xml format file into json format, and vice versa **(in my opinion)**.
 
