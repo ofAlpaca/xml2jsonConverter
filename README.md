@@ -34,7 +34,7 @@ While transforming a json into a xml, there will appear two tags which you may n
         <gender>Helicopter</gender>
     </pseudoTag>
     ```
-2. `pseudoIndex` tag is used to deal with double array in json format. For examlpe,
+2. `pseudoIndex` tag is used to deal with nested array in json format. For examlpe,
     ```
     {
         "doubleArr" : [[[3,5,4]], [false, true, false]]
